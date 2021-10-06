@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:weather_app_flutter/router/router.dart';
 import 'package:weather_app_flutter/views/home.dart';
 import 'package:weather_app_flutter/views/loading.dart';
-import 'package:weather_app_flutter/views/location.dart';
 
 void main() {
   runApp(MyApp(
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => Loading(),
         "/home": (context) => Home(),
-        "/location": (context) => Location(),
+        "/loading": (context) => Loading(),
       },
       // onGenerateRoute: appRouter.onGenerateRoute,
     );
