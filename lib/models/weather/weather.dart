@@ -21,11 +21,10 @@ class Weather {
   late String country;
 
   Future<void> getData() async {
-    late Map data;
     try {
       Response response = await get(
           "https://api.openweathermap.org/data/2.5/weather?q=$location&appid=$appiId");
-      data = jsonDecode(response.body);
+      Map data = jsonDecode(response.body);
 
       Map tempData = data['main'];
 
@@ -44,6 +43,9 @@ class Weather {
 
       Map sysData = data['sys'];
       String countryData = sysData['country'];
+      print("oi");
+      print(data['name'].toString());
+      String cityName = data['name'];
 
       temp = getTemp.toString();
       tempMax = getMaxTemp.toString();
@@ -53,10 +55,12 @@ class Weather {
       description = getDescription.toString();
       main = getMain.toString();
       country = countryData;
-      city = location!;
+      city = cityName;
     } catch (error) {
       print(error.toString());
       temp = "Error";
+      tempMax = "Error";
+      tempMin = "Error";
       humidity = "Error";
       windSpeed = "Error";
       description = "Error";

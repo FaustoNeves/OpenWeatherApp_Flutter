@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
     String temperature = (((info['temperature']).toString()).substring(0, 2));
     String maxTemperature = ((info['temperature_max'].toString().substring(0,2)));
     String minTemperature = ((info['temperature_min'].toString().substring(0,2)));
-    String? city = info['city'];
+    String city = info['city'];
     String country = info['country'];
     String description = info['description'].toString();
 
@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
                         country,
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      Text(city?? 'no city',
+                      Text(city,
                           style: TextStyle(fontSize: 28, color: Colors.white)),
                       Text(
                         "$temperature C°",

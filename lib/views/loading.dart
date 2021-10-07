@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter/models/weather/weather.dart';
 
 class Loading extends StatefulWidget {
@@ -15,7 +17,7 @@ const spinKit = SpinKitRotatingCircle(
 );
 
 class _LoadingState extends State<Loading> {
-  String? city = "Kansas";
+  String? city;
   late String temp;
   late String tempMax;
   late String tempMin;
@@ -25,9 +27,22 @@ class _LoadingState extends State<Loading> {
   late String main;
   late String country;
 
-  void initializeApp(String? cityName) async {
-    Weather weather = Weather(location: city);
+  void initializeWeatherContent(String? cityName) async {
+    if (cityName == null) {
+      print("oi");
+      Position position = await _determinePosition();
+      position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      print(position.longitude.toString());
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+          Placemark place = placemarks[0];
+          cityName = place.name;
+    }
+    print("olá");
+    Weather weather = Weather(location: cityName);
     await weather.getData();
+    //if cityName is empty, then invoke async method to get city name using geolocation
     temp = weather.temp;
     tempMax = weather.tempMax;
     tempMin = weather.tempMin;
@@ -35,6 +50,7 @@ class _LoadingState extends State<Loading> {
     windSpeed = weather.windSpeed;
     description = weather.description;
     main = weather.main;
+    city = weather.city;
     country = weather.country;
 
     Navigator.pushReplacementNamed(context, "/home", arguments: {
@@ -50,13 +66,38 @@ class _LoadingState extends State<Loading> {
     });
   }
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     Map? search = ModalRoute.of(context)!.settings.arguments as Map?;
     if (search?.isNotEmpty ?? false) {
       city = search!['searchText'];
     }
-    initializeApp(city);
+    initializeWeatherContent(city);
     return Scaffold(
         backgroundColor: Colors.black,
         body: Center(
