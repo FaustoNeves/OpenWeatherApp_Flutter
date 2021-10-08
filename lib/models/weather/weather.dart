@@ -5,8 +5,10 @@ import 'package:http/http.dart';
 class Weather {
   final appiId = "0cffb35ecd63d1162d3e70dd625132fc";
   String? location;
+  String? lat;
+  String? lon;
 
-  Weather({this.location}) {
+  Weather({this.location, this.lat, this.lon}) {
     this.location = location;
   }
 
@@ -19,11 +21,18 @@ class Weather {
   late String main;
   late String city;
   late String country;
+  late String url;
 
   Future<void> getData() async {
     try {
-      Response response = await get(
-          "https://api.openweathermap.org/data/2.5/weather?q=$location&appid=$appiId");
+      if (location == null) {
+        url =
+            "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$appiId";
+      } else {
+        url =
+            "https://api.openweathermap.org/data/2.5/weather?q=$location&appid=$appiId";
+      }
+      Response response = await get(url);
       Map data = jsonDecode(response.body);
 
       Map tempData = data['main'];
@@ -43,8 +52,6 @@ class Weather {
 
       Map sysData = data['sys'];
       String countryData = sysData['country'];
-      print("oi");
-      print(data['name'].toString());
       String cityName = data['name'];
 
       temp = getTemp.toString();
@@ -56,8 +63,17 @@ class Weather {
       main = getMain.toString();
       country = countryData;
       city = cityName;
+
+      // print(temp.toString());
+      // print(tempMax.toString());
+      // print(tempMin.toString());
+      // print(humidity.toString());
+      // print(windSpeed.toString());
+      // print(description.toString());
+      // print(main.toString());
+      // print(country.toString());
+      // print(city.toString());
     } catch (error) {
-      print(error.toString());
       temp = "Error";
       tempMax = "Error";
       tempMin = "Error";

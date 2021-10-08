@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter/models/weather/weather.dart';
 
@@ -26,21 +25,25 @@ class _LoadingState extends State<Loading> {
   late String description;
   late String main;
   late String country;
+  String? lat;
+  String? lon;
 
   void initializeWeatherContent(String? cityName) async {
     if (cityName == null) {
-      print("oi");
       Position position = await _determinePosition();
       position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      print(position.longitude.toString());
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-          Placemark place = placemarks[0];
-          cityName = place.name;
+
+      lat = position.latitude.toString();
+      lon = position.longitude.toString();
+      // List<Placemark> placemarks =
+      //     await placemarkFromCoordinates(position.latitude, position.longitude);
+      // Placemark place = placemarks[0];
+      // cityName = place.name;
+      // print("$place");
     }
-    print("olá");
-    Weather weather = Weather(location: cityName);
+
+    Weather weather = Weather(location: cityName, lat: lat, lon: lon);
     await weather.getData();
     //if cityName is empty, then invoke async method to get city name using geolocation
     temp = weather.temp;
