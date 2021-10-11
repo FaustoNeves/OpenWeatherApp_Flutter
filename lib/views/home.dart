@@ -1,4 +1,5 @@
 
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -14,12 +15,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Map info = ModalRoute.of(context)!.settings.arguments as Map;
-    String temperature = (((info['temperature']).toString()).substring(0, 2));
-    String maxTemperature = ((info['temperature_max'].toString().substring(0,2)));
-    String minTemperature = ((info['temperature_min'].toString().substring(0,2)));
+    String temperature = (((info['temperature']).toString()).substring(0, 2))
+        .replaceAll(".", "");
+    String maxTemperature =
+        ((info['temperature_max'].toString().substring(0, 2)))
+            .replaceAll(".", "");
+    String minTemperature =
+        ((info['temperature_min'].toString().substring(0, 2)))
+            .replaceAll(".", "");
     String city = info['city'];
     String country = info['country'];
     String description = info['description'].toString();
+    String icon = info['icon'];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -77,7 +84,7 @@ class _HomeState extends State<Home> {
                   // height: MediaQuery.of(context).size.height/2,
                   // width: MediaQuery.of(context).size.width,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
@@ -86,9 +93,15 @@ class _HomeState extends State<Home> {
                       ),
                       Text(city,
                           style: TextStyle(fontSize: 28, color: Colors.white)),
-                      Text(
-                        "$temperature C°",
-                        style: TextStyle(fontSize: 108, color: Colors.white),
+                      Countup(
+                        duration: Duration(milliseconds: 1100),
+                        suffix: " C°",
+                        begin: 0,
+                        end: double.parse(temperature),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 108,
+                            color: Colors.white),
                       ),
                       Text(
                         description,
@@ -98,6 +111,7 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
+                /** Card Section*/
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -106,22 +120,49 @@ class _HomeState extends State<Home> {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(50),
                               topRight: Radius.circular(50)),
-                          color: Colors.white),
+                          color: Colors.white.withOpacity(0.7)),
                       height: MediaQuery.of(context).size.height / 8,
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: [Text("MAX temp"), Text(maxTemperature)],
+                                children: [
+                                  Text(
+                                    "MAX",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  Countup(
+                                    duration: Duration(milliseconds: 1100),
+                                    suffix: " C°",
+                                    begin: 0,
+                                    end: double.parse(maxTemperature),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: [Text("MIN temp"), Text(minTemperature)],
+                                children: [
+                                  Text("MIN",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500)),
+                                  Countup(
+                                    duration: Duration(milliseconds: 1100),
+                                    suffix: " C°",
+                                    begin: 0,
+                                    end: double.parse(minTemperature),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               ),
                             ]),
                       ),

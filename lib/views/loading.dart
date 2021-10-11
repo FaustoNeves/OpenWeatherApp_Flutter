@@ -25,6 +25,7 @@ class _LoadingState extends State<Loading> {
   late String description;
   late String main;
   late String country;
+  late String icon;
   String? lat;
   String? lon;
 
@@ -55,6 +56,7 @@ class _LoadingState extends State<Loading> {
     main = weather.main;
     city = weather.city;
     country = weather.country;
+    icon = weather.icon;
 
     Navigator.pushReplacementNamed(context, "/home", arguments: {
       "temperature": temp,
@@ -66,6 +68,7 @@ class _LoadingState extends State<Loading> {
       "main": main,
       "city": city,
       "country": country,
+      "icon": icon,
     });
   }
 

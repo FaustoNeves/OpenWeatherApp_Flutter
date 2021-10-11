@@ -22,6 +22,7 @@ class Weather {
   late String city;
   late String country;
   late String url;
+  late String icon;
 
   Future<void> getData() async {
     try {
@@ -49,6 +50,7 @@ class Weather {
       Map weatherMainData = weatherData[0];
       String getMain = weatherMainData['main'];
       String getDescription = weatherMainData["description"];
+      String getIcon = weatherMainData['icon'];
 
       Map sysData = data['sys'];
       String countryData = sysData['country'];
@@ -63,16 +65,7 @@ class Weather {
       main = getMain.toString();
       country = countryData;
       city = cityName;
-
-      // print(temp.toString());
-      // print(tempMax.toString());
-      // print(tempMin.toString());
-      // print(humidity.toString());
-      // print(windSpeed.toString());
-      // print(description.toString());
-      // print(main.toString());
-      // print(country.toString());
-      // print(city.toString());
+      icon = getIcon;
     } catch (error) {
       temp = "Error";
       tempMax = "Error";
