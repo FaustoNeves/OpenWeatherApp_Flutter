@@ -37,7 +37,6 @@ class Weather {
       Map data = jsonDecode(response.body);
 
       Map tempData = data['main'];
-
       double getTemp = tempData['temp'] - 273.15;
       double getMaxTemp = tempData['temp_max'] - 273.15;
       double getMinTemp = tempData['temp_min'] - 273.15;
@@ -55,7 +54,6 @@ class Weather {
       Map sysData = data['sys'];
       String countryData = sysData['country'];
       String cityName = data['name'];
-
       temp = getTemp.toString();
       tempMax = getMaxTemp.toString();
       tempMin = getMinTemp.toString();

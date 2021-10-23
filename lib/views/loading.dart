@@ -37,11 +37,7 @@ class _LoadingState extends State<Loading> {
 
       lat = position.latitude.toString();
       lon = position.longitude.toString();
-      // List<Placemark> placemarks =
-      //     await placemarkFromCoordinates(position.latitude, position.longitude);
-      // Placemark place = placemarks[0];
-      // cityName = place.name;
-      // print("$place");
+      print("lat= $lat, lon= $lon");
     }
 
     Weather weather = Weather(location: cityName, lat: lat, lon: lon);
@@ -90,7 +86,6 @@ class _LoadingState extends State<Loading> {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
@@ -112,6 +107,7 @@ class _LoadingState extends State<Loading> {
               SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
                       "Weather",
