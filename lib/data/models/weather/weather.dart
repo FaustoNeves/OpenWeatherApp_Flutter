@@ -24,6 +24,22 @@ class Weather {
   late String url;
   late String icon;
 
+  Weather.fromJson(Map json) {
+    Map mainData = json['main'];
+    temp = mainData['temp'] - 273.15;
+    tempMax = mainData['temp_max'] - 273.15;
+    tempMin = mainData['temp_min'] - 273.15;
+
+    Map weatherMainData = mainData[0];
+    description = weatherMainData['description'];
+    main = weatherMainData['main'];
+    city = mainData['name'];
+
+    Map sysData = mainData['sys'];
+    country = sysData['country'];
+    icon = weatherMainData['icon'];
+  }
+
   Future<void> getData() async {
     try {
       if (location == null) {
@@ -48,7 +64,7 @@ class Weather {
       List weatherData = data['weather'];
       Map weatherMainData = weatherData[0];
       String getMain = weatherMainData['main'];
-      String getDescription = weatherMainData["description"];
+       String getDescription = weatherMainData["description"];
       String getIcon = weatherMainData['icon'];
 
       Map sysData = data['sys'];

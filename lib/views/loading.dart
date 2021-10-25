@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app_flutter/models/weather/weather.dart';
+import 'package:weather_app_flutter/data/models/weather/weather.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
