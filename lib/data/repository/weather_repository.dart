@@ -9,6 +9,6 @@ class WeatherRepository {
   Future<Weather> getWeather(
       String? cityName, String? lat, String? lon) async {
     final weatherResponse = await weatherAPI.getWeather(cityName, lat, lon);
-    return weatherResponse.map((response) => Weather.fromJson(response));
+    return Weather.fromJson(weatherResponse);
   }
 }

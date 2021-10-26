@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => Loading(),
         "/home": (context) => Home(),
+        "/loading": (context) => Loading(),
       },
       // onGenerateRoute: appRouter.onGenerateRoute,
     );

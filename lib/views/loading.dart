@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
+import 'package:weather_app_flutter/data/remote/weather_api.dart';
+import 'package:weather_app_flutter/data/repository/weather_repository.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
@@ -20,8 +22,6 @@ class _LoadingState extends State<Loading> {
   late String temp;
   late String tempMax;
   late String tempMin;
-  late String humidity;
-  late String windSpeed;
   late String description;
   late String main;
   late String country;
@@ -40,14 +40,13 @@ class _LoadingState extends State<Loading> {
       print("lat= $lat, lon= $lon");
     }
 
-    Weather weather = Weather(location: cityName, lat: lat, lon: lon);
-    await weather.getData();
-    //if cityName is empty, then invoke async method to get city name using geolocation
+    WeatherRepository weatherRepository =
+        WeatherRepository(weatherAPI: WeatherAPI());
+    Weather weather = await weatherRepository.getWeather(cityName, lat, lon);
+
     temp = weather.temp;
     tempMax = weather.tempMax;
     tempMin = weather.tempMin;
-    humidity = weather.humidity;
-    windSpeed = weather.windSpeed;
     description = weather.description;
     main = weather.main;
     city = weather.city;
@@ -58,8 +57,6 @@ class _LoadingState extends State<Loading> {
       "temperature": temp,
       "temperature_max": tempMax,
       "temperature_min": tempMin,
-      "humidity": humidity,
-      "windSpeed": windSpeed,
       "description": description,
       "main": main,
       "city": city,
@@ -102,39 +99,38 @@ class _LoadingState extends State<Loading> {
     return Scaffold(
         backgroundColor: Colors.black,
         body: Center(
-          child: Column(
-            children: [
-              SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      "Weather",
-                      style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white),
-                    ),
-                    Text(
-                      "NOW",
-                      style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.blue),
-                    ),
-                    Image.asset(
-                      "assets/moonset_night_logo.png",
-                      color: Colors.blue,
-                    ),
-                    SpinKitPouringHourglass(
-                      color: Colors.orange,
-                    )
-                  ],
-                ),
+            child: Column(
+          children: [
+            SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Weather",
+                    style: TextStyle(
+                        fontSize: 60,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  ),
+                  Text(
+                    "NOW",
+                    style: TextStyle(
+                        fontSize: 60,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.blue),
+                  ),
+                  Image.asset(
+                    "assets/moonset_night_logo.png",
+                    color: Colors.blue,
+                  ),
+                  SpinKitPouringHourglass(
+                    color: Colors.orange,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        )));
   }
 }
