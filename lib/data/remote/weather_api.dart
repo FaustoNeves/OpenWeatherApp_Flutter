@@ -8,7 +8,7 @@ class WeatherAPI {
   late String url;
 
   Future<dynamic> getWeather(
-      String? location, String? lat, String? lon) async {
+      String? location, double? lat, double? lon) async {
       if (location == null) {
         url =
             "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiId";

@@ -1,16 +1,4 @@
-import 'dart:convert';
-
-import 'package:http/http.dart';
-
 class Weather {
-  String? location;
-  String? lat;
-  String? lon;
-
-  Weather({this.location, this.lat, this.lon}) {
-    this.location = location;
-  }
-
   late String temp;
   late String tempMin;
   late String tempMax;
@@ -21,10 +9,9 @@ class Weather {
   late String url;
   late String icon;
 
-  Weather.fromJson(Map map) {
+  Weather.fromMap(Map map) {
     Map mainData = map['main'];
     print(map.toString());
-    print(mainData.toString());
     temp = (mainData['temp'] - 273.15).toString();
     tempMax = (mainData['temp_max'] - 273.15).toString();
     tempMin = (mainData['temp_min'] - 273.15).toString();
@@ -38,5 +25,18 @@ class Weather {
     Map sysData = map['sys'];
     country = sysData['country'];
     icon = weatherMainData['icon'];
+  }
+
+  Map<String, dynamic> weatherMap() {
+    return <String, dynamic>{
+      "temperature": temp,
+      "temperature_min": tempMin,
+      "temperature_max": tempMax,
+      "description": description,
+      "main": main,
+      "city": city,
+      "country": country,
+      "icon": icon,
+    };
   }
 }

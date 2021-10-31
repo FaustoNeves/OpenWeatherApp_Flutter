@@ -7,8 +7,8 @@ class WeatherRepository {
   WeatherRepository({required this.weatherAPI});
 
   Future<Weather> getWeather(
-      String? cityName, String? lat, String? lon) async {
+      String? cityName, double? lat, double? lon) async {
     final weatherResponse = await weatherAPI.getWeather(cityName, lat, lon);
-    return Weather.fromJson(weatherResponse);
+    return Weather.fromMap(weatherResponse);
   }
 }
