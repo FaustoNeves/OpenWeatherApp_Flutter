@@ -11,10 +11,12 @@ class Weather {
 
   Weather.fromMap(Map map) {
     Map mainData = map['main'];
-    print(map.toString());
-    temp = (mainData['temp'] - 273.15).toString();
-    tempMax = (mainData['temp_max'] - 273.15).toString();
-    tempMin = (mainData['temp_min'] - 273.15).toString();
+    temp = ((mainData['temp'] - 273.15).toString().substring(0, 2))
+        .replaceAll("", "");
+    tempMax = ((mainData['temp_max'] - 273.15).toString().substring(0, 2))
+        .replaceAll("", "");
+    tempMin = ((mainData['temp_min'] - 273.15).toString().substring(0, 2))
+        .replaceAll("", "");
 
     List weatherMainDataList = map['weather'];
     Map weatherMainData = weatherMainDataList[0];
@@ -27,7 +29,7 @@ class Weather {
     icon = weatherMainData['icon'];
   }
 
-  Map<String, dynamic> weatherMap() {
+  Map weatherMap() {
     return <String, dynamic>{
       "temperature": temp,
       "temperature_min": tempMin,

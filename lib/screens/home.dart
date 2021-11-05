@@ -2,9 +2,11 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_app_flutter/data/models/weather/weather.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final Weather? data;
+  const Home({Key? key, this.data}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -21,21 +23,16 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Map info = ModalRoute.of(context)!.settings.arguments as Map;
-    String temperature = (((info['temperature']).toString()).substring(0, 2))
-        .replaceAll(".", "");
-    String maxTemperature =
-        ((info['temperature_max'].toString().substring(0, 2)))
-            .replaceAll(".", "");
-    String minTemperature =
-        ((info['temperature_min'].toString().substring(0, 2)))
-            .replaceAll(".", "");
-    String city = info['city'];
-    String country = info['country'];
-    String description = info['description'].toString();
-    String icon = info['icon'];
+    Weather info = widget.data!;
+    print(info.temp);
+    String temperature = info.temp.toString();
+    String maxTemperature = info.tempMax.toString();
+    String minTemperature = info.tempMin.toString();
+    String city = info.city;
+    String country = info.country;
+    String description = info.description.toString();
+    String icon = info.icon;
 
-    print(icon);
     switch (icon) {
       case '01d':
         {

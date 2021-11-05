@@ -7,7 +7,7 @@ class WeatherAPI {
   String apiId = "0cffb35ecd63d1162d3e70dd625132fc";
   late String url;
 
-  Future<dynamic> getWeather(
+  Future getWeather(
       String? location, double? lat, double? lon) async {
       if (location == null) {
         url =
