@@ -1,8 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
 import 'package:weather_app_flutter/data/use_case/get_weather_use_case.dart';
 import 'package:weather_app_flutter/screens/home.dart';
@@ -15,11 +14,6 @@ class Loading extends StatefulWidget {
   @override
   _LoadingState createState() => _LoadingState();
 }
-
-const spinKit = SpinKitRotatingCircle(
-  color: Colors.white,
-  size: 50.0,
-);
 
 class _LoadingState extends State<Loading> {
   String? city;
@@ -39,27 +33,17 @@ class _LoadingState extends State<Loading> {
                 future: getWeatherUseCase.getWeatherUseCase(city),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    print(snapshot.error.runtimeType);
                     return UserOrientation(errorType: snapshot.error.runtimeType);
-                    // print(snapshot.error.runtimeType);
-                    // if (snapshot.error.runtimeType ==
-                    //         PermissionDeniedException &&
-                    //     snapshot.connectionState == ConnectionState.done) {
-                    //   return UserOrientation(errorType: snapshot.error.runtimeType);
-                    // }
-                    // if (snapshot.error.runtimeType == SocketException) {
-                    //   print("socket exception");
-                    // } else if (snapshot.error.runtimeType == HttpException) {
-                    //   print("http exception");
-                    // }
                   } else if (snapshot.connectionState == ConnectionState.done &&
                       snapshot.hasData) {
-                    print(snapshot.data.toString());
                     try {
                       Map weather = snapshot.data as Map;
                       Weather weatherData = Weather.fromMap(weather);
                       return Home(data: weatherData);
-                    } catch (exception) {}
+                    } catch (exception) {
+                      return UserOrientation(
+                          errorType: NoResultFoundException);
+                    }
                   }
                   return Column(
                     children: [
@@ -82,16 +66,21 @@ class _LoadingState extends State<Loading> {
                                   fontWeight: FontWeight.w900,
                                   color: Colors.blue),
                             ),
-                            Image.asset(
-                              "assets/moonset_night_logo.png",
-                              color: Colors.blue,
-                            ),
-                            SpinKitPouringHourglass(
-                              color: Colors.orange,
-                            ),
                           ],
                         ),
                       ),
+                      Column(
+                        children: [
+                          Image.asset(
+                            "assets/moonset_night_logo.png",
+                            color: Colors.blue,
+                          ),
+                          Image.asset("assets/intro_moon.png"),
+                          SpinKitRing(
+                            color: Colors.orange,
+                          ),
+                        ],
+                      )
                     ],
                   );
                 })));

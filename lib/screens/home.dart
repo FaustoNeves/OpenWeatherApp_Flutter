@@ -24,7 +24,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     Weather info = widget.data!;
-    print(info.temp);
     String temperature = info.temp.toString();
     String maxTemperature = info.tempMax.toString();
     String minTemperature = info.tempMin.toString();
@@ -36,7 +35,7 @@ class _HomeState extends State<Home> {
     switch (icon) {
       case '01d':
         {
-          _setThemeColor(AssetImage("assets/clear_sky_day.jpg"), Colors.white,
+          _setThemeColor(AssetImage("assets/clear_sky_day.png"), Colors.white,
               Colors.white, Colors.black, Icons.wb_sunny, Colors.black);
         }
         break;
@@ -44,7 +43,7 @@ class _HomeState extends State<Home> {
       case '01n':
         {
           _setThemeColor(
-              AssetImage("assets/clear_sky_night.jpg"),
+              AssetImage("assets/clear_sky_night.png"),
               Colors.blueAccent[800]!,
               Colors.white,
               Colors.blue,
@@ -54,28 +53,28 @@ class _HomeState extends State<Home> {
 
       case '09d':
         {
-          _setThemeColor(AssetImage("assets/morning_rain.jpg"), Colors.blueGrey,
+          _setThemeColor(AssetImage("assets/rain.png"), Colors.blueGrey,
               Colors.blueGrey, Colors.black, Icons.umbrella, Colors.blueGrey);
         }
         break;
 
       case '09n':
         {
-          _setThemeColor(AssetImage("assets/night_rain.jpg"), Colors.white,
+          _setThemeColor(AssetImage("assets/rain.png"), Colors.white,
               Colors.white, Colors.black, Icons.umbrella, Colors.black);
         }
         break;
 
       case '11d':
         {
-          _setThemeColor(AssetImage("assets/day_heavy_rain.jpg"), Colors.grey,
+          _setThemeColor(AssetImage("assets/heavy_rain.png"), Colors.grey,
               Colors.grey, Colors.black, Icons.flash_on, Colors.grey);
         }
         break;
       case '11n':
         {
           _setThemeColor(
-              AssetImage("assets/night_heavy_rain.jpg"),
+              AssetImage("assets/heavy_rain.png"),
               Colors.white,
               Colors.white,
               Colors.black,
@@ -85,35 +84,35 @@ class _HomeState extends State<Home> {
         break;
       case '13d':
         {
-          _setThemeColor(AssetImage("assets/snow_day.jpg"), Colors.white,
+          _setThemeColor(AssetImage("assets/snow.png"), Colors.white,
               Colors.white, Colors.black, Icons.flare, Colors.white);
         }
         break;
       case '13d':
         {
-          _setThemeColor(AssetImage("assets/snow_night.jpg"), Colors.white70,
+          _setThemeColor(AssetImage("assets/snow.png"), Colors.white70,
               Colors.white70, Colors.white70, Icons.flare, Colors.white70);
         }
         break;
       case '50d':
         {
-          _setThemeColor(AssetImage("assets/mist.jpg"), Colors.white24,
+          _setThemeColor(AssetImage("assets/fog.png"), Colors.white24,
               Colors.white24, Colors.white24, Icons.waves, Colors.white24);
         }
         break;
       case '50n':
         {
-          _setThemeColor(AssetImage("assets/mist.jpg"), Colors.white24,
+          _setThemeColor(AssetImage("assets/fog.png"), Colors.white24,
               Colors.white24, Colors.white24, Icons.waves, Colors.white24);
         }
         break;
       default:
         {
-          _setThemeColor(AssetImage("assets/clouds_day.jpg"), Colors.white,
+          _setThemeColor(AssetImage("assets/clouds_day.png"), Colors.white,
               Colors.white, Colors.black, Icons.wb_sunny_outlined, Colors.white);
           if ((icon == '02d') || (icon == '03d') || (icon == '04d')) {
           } else {
-            _setThemeColor(AssetImage("assets/clouds_night.jpg"), Colors.white,
+            _setThemeColor(AssetImage("assets/clouds_night.png"), Colors.white,
                 Colors.white, Colors.black, Icons.wb_sunny_outlined, Colors.black);
           }
           break;
@@ -130,15 +129,14 @@ class _HomeState extends State<Home> {
       ),
       body: SafeArea(
         child: Container(
-            decoration: BoxDecoration(
+            decoration: BoxDecoration(color: Colors.orange,
               image: DecorationImage(
                 image: backgroundImage,
-                fit: BoxFit.cover,
+                fit: BoxFit.scaleDown,
               ),
             ),
             child: Column(
               children: [
-                /** Main Section*/
                 SizedBox(
                   height: 30,
                 ),
@@ -160,11 +158,6 @@ class _HomeState extends State<Home> {
                               textStyle: TextStyle(
                                   fontSize: 22, color: Colors.white))),
                       SizedBox(height: 20,),
-                      Icon(
-                        weatherIcon,
-                        size: MediaQuery.of(context).size.width/1.6,
-                        color: mainColor,
-                      ),
                       Countup(
                           duration: Duration(milliseconds: 1100),
                           suffix: " C°",
@@ -177,7 +170,6 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                /** Card Section*/
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
