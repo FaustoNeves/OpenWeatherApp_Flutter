@@ -59,11 +59,16 @@ flutter:
     - assets/clouds_night.png
     - assets/fog.png
     - assets/heavy_rain.png
-    - assets/moonset_night_logo.png
     - assets/rain.png
+    - assets/night_rain.png
     - assets/snow.png
-    - assets/storm.png
-    - assets/intro_moon.png
+    - assets/thermometer.png
+    - assets/weather_not_found.png
+    - assets/get_location.png
+    - assets/get_wifi.png
+    - assets/repair.png
+    - assets/clouds_day_2.png
+    - assets/clouds_night_2.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

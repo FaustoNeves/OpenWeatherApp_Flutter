@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_flutter/router/router.dart';
-import 'package:weather_app_flutter/screens/home.dart';
-import 'package:weather_app_flutter/screens/loading.dart';
+import 'package:weather_app_flutter/screens/weather_info/weather_info.dart';
+import 'package:weather_app_flutter/screens/loading/loading.dart';
 
 void main() {
   runApp(MyApp(
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue),
       routes: {
         "/": (context) => Loading(),
-        "/home": (context) => Home(),
+        "/home": (context) => WeatherInfo(),
         "/loading": (context) => Loading(),
       },
       // onGenerateRoute: appRouter.onGenerateRoute,
