@@ -20,12 +20,12 @@ class _PermissionsDeniedWidgetState extends State<PermissionsDeniedWidget> {
             color: Colors.blue,
           ),
           Text(
-            "This app requires service location",
+            "This app requires controller location",
             style: TextStyle(color: Colors.white, fontSize: 18),
             textAlign: TextAlign.center,
           ),
           Text(
-            "Click on the button bellow to manually enable your location service",
+            "Click on the button bellow to manually enable your location controller",
             style: TextStyle(color: Colors.white, fontSize: 18),
             textAlign: TextAlign.center,
           ),

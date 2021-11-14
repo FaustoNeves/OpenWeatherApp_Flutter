@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
-import 'package:weather_app_flutter/data/use_case/get_weather_use_case.dart';
+import 'package:weather_app_flutter/data/service/weather_service.dart';
 import 'package:weather_app_flutter/screens/user_orientation/user_orientation.dart';
 import 'package:weather_app_flutter/screens/weather_info/weather_info.dart';
-import 'package:weather_app_flutter/service/weather_service.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
@@ -16,8 +15,7 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   String? city;
-  final weatherService = WeatherService();
-  final getWeatherUseCase = GetWeatherUseCase();
+  final _weatherService = WeatherService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class _LoadingState extends State<Loading> {
         body: Container(
           margin: EdgeInsets.all(10),
           child: FutureBuilder(
-              future: getWeatherUseCase.getWeatherUseCase(city),
+              future: _weatherService.getWeather(city),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   print(snapshot.error.runtimeType);
