@@ -1,7 +1,7 @@
 import 'package:weather_app_flutter/controller/location_controller.dart';
 import 'package:weather_app_flutter/controller/weather_controller.dart';
 
-class WeatherService {
+class WeatherViewModel {
   WeatherController _weatherController = WeatherController();
   LocationController _locationController = LocationController();
 

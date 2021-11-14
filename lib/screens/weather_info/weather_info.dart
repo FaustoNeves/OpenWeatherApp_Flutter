@@ -18,6 +18,8 @@ class _WeatherInfoState extends State<WeatherInfo> {
   late String backgroundImage;
   late Color mainColor;
   late Color backgroundColor;
+  String? cityName;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -120,20 +122,35 @@ class _WeatherInfoState extends State<WeatherInfo> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Weather search"),
-          content: TextField(
-            controller: searchController,
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "City name",
+          content: Form(
+            key: _formKey,
+            child: TextFormField(
+              cursorColor: Colors.orange,
+              decoration: InputDecoration(
+                  labelText: "City name",
+                  labelStyle: TextStyle(
+                    color: Colors.black87,
+                  )),
+              validator: (text) {
+                if (text!.isEmpty) {
+                  return 'This field cannot be empty';
+                }
+              },
+              onSaved: (text) {
+                cityName = text;
+              },
             ),
           ),
           actions: <Widget>[
             ElevatedButton(
               child: Text("Search"),
               onPressed: () {
-                Navigator.pushNamed(context, "/loading", arguments: {
-                  "searchText": searchController.text,
-                });
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  Navigator.pushNamed(context, "/loading", arguments: {
+                    "searchText": cityName,
+                  });
+                }
               },
             ),
             ElevatedButton(
