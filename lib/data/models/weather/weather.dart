@@ -14,6 +14,8 @@ class Weather {
   late Color backgroundColor;
   late String weatherImage;
 
+  Weather();
+
   Weather.fromMap(Map map) {
     Map mainData = map['main'];
     temp = ((mainData['temp'] - 273.15).toString().substring(0, 2))
@@ -171,16 +173,17 @@ class Weather {
     }
   }
 
-  Map weatherMap() {
-    return <String, dynamic>{
-      "temperature": temp,
-      "temperature_min": tempMin,
-      "temperature_max": tempMax,
-      "description": description,
-      "main": main,
-      "city": city,
-      "country": country,
-      "icon": icon,
-    };
+  void setProviderContent(Weather weather) {
+    this.temp = weather.temp;
+    this.tempMin = weather.tempMin;
+    this.tempMax = weather.tempMax;
+    this.description = weather.description;
+    this.main = weather.main;
+    this.city = weather.city;
+    this.country = weather.country;
+    this.icon = weather.icon;
+    this.mainColor = weather.mainColor;
+    this.backgroundColor = weather.backgroundColor;
+    this.weatherImage = weather.weatherImage;
   }
 }

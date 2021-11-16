@@ -11,8 +11,4 @@ class WeatherViewModel {
 
     return await _weatherController.getWeather(cityName, coordinates);
   }
-
-  Future getPermissions() async {
-    return await _locationController.getCoordinates() as Map<String, double>;
-  }
 }

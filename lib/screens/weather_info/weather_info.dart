@@ -2,12 +2,11 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
 
 class WeatherInfo extends StatefulWidget {
-  final Weather? data;
-
-  const WeatherInfo({Key? key, this.data}) : super(key: key);
+  const WeatherInfo({Key? key}) : super(key: key);
 
   @override
   _WeatherInfoState createState() => _WeatherInfoState();
@@ -15,105 +14,102 @@ class WeatherInfo extends StatefulWidget {
 
 class _WeatherInfoState extends State<WeatherInfo> {
   TextEditingController searchController = new TextEditingController();
-  late String backgroundImage;
-  late Color mainColor;
-  late Color backgroundColor;
+
   String? cityName;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    Weather info = widget.data!;
-    String temperature = info.temp.toString();
-    String maxTemperature = info.tempMax.toString();
-    String minTemperature = info.tempMin.toString();
-    String city = info.city;
-    String country = info.country;
-    backgroundImage = info.weatherImage;
-    backgroundColor = info.backgroundColor;
-    mainColor = info.mainColor;
     return Container(
-        decoration: BoxDecoration(
-          color: backgroundColor,
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Flexible(
+      child: Consumer<Weather>(
+        builder: (context, value, child) {
+          return Container(
+              decoration: BoxDecoration(
+                color: value.backgroundColor,
+              ),
+              child: SafeArea(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      country,
-                      style: GoogleFonts.roboto(
-                          textStyle: TextStyle(fontSize: 18, color: mainColor)),
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            value.country,
+                            style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                    fontSize: 18, color: value.mainColor)),
+                          ),
+                          Text(value.city,
+                              style: GoogleFonts.roboto(
+                                  textStyle: TextStyle(
+                                      fontSize: 22, color: value.mainColor))),
+                          Countup(
+                              duration: Duration(milliseconds: 1100),
+                              suffix: " C°",
+                              begin: 0,
+                              end: double.parse(value.temp),
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                    fontSize: 90, color: value.mainColor),
+                              )),
+                        ],
+                      ),
                     ),
-                    Text(city,
-                        style: GoogleFonts.roboto(
-                            textStyle:
-                                TextStyle(fontSize: 22, color: mainColor))),
-                    Countup(
-                        duration: Duration(milliseconds: 1100),
-                        suffix: " C°",
-                        begin: 0,
-                        end: double.parse(temperature),
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(fontSize: 90, color: mainColor),
-                        )),
+                    Flexible(
+                      child: Image.asset(
+                        value.weatherImage,
+                        color: value.mainColor,
+                      ),
+                    ),
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Countup(
+                                duration: Duration(milliseconds: 1100),
+                                prefix: "max ",
+                                suffix: " C°",
+                                begin: 0,
+                                end: double.parse(value.tempMax),
+                                style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                        fontSize: 30, color: value.mainColor)),
+                              ),
+                              Countup(
+                                duration: Duration(milliseconds: 1100),
+                                prefix: "min ",
+                                suffix: " C°",
+                                begin: 0,
+                                end: double.parse(value.tempMin),
+                                style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                        fontSize: 30, color: value.mainColor)),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FloatingActionButton(
+                              onPressed: _showDialog,
+                              backgroundColor: Colors.white,
+                              child: Icon(Icons.search, color: Colors.black)),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Flexible(
-                child: Image.asset(
-                  backgroundImage,
-                  color: mainColor,
-                ),
-              ),
-              Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Countup(
-                          duration: Duration(milliseconds: 1100),
-                          prefix: "max ",
-                          suffix: " C°",
-                          begin: 0,
-                          end: double.parse(maxTemperature),
-                          style: GoogleFonts.roboto(
-                              textStyle:
-                                  TextStyle(fontSize: 30, color: mainColor)),
-                        ),
-                        Countup(
-                          duration: Duration(milliseconds: 1100),
-                          prefix: "min ",
-                          suffix: " C°",
-                          begin: 0,
-                          end: double.parse(minTemperature),
-                          style: GoogleFonts.roboto(
-                              textStyle:
-                                  TextStyle(fontSize: 30, color: mainColor)),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    FloatingActionButton(
-                        onPressed: _showDialog,
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.search, color: Colors.black)),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
+              ));
+        },
+      ),
+    );
   }
 
   void _showDialog() {
