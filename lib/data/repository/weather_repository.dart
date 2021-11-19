@@ -1,4 +1,5 @@
-import 'package:weather_app_flutter/data/remote/weather_api.dart';
+
+import 'package:weather_app_flutter/data/remote/weather/weather_api.dart';
 
 class WeatherRepository {
   final WeatherAPI weatherAPI;
