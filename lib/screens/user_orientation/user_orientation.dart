@@ -4,6 +4,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app_flutter/data/remote/base_http/http_exceptions.dart';
 import 'package:weather_app_flutter/screens/loading/loading.dart';
 
 class UserOrientation extends StatefulWidget {
@@ -76,7 +77,7 @@ class _UserOrientationState extends State<UserOrientation> {
                       ],
                     ),
                   ),
-                if (widget.errorType == NoResultFoundException)
+                if (widget.errorType == NoResultsException)
                   Flexible(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,7 +110,7 @@ class _UserOrientationState extends State<UserOrientation> {
                       ],
                     ),
                   ),
-                if (widget.errorType == SocketException)
+                if (widget.errorType == FetchDataException)
                   Flexible(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

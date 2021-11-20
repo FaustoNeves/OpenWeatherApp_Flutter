@@ -30,7 +30,7 @@ class _LoadingState extends State<Loading> {
         body: Container(
           margin: EdgeInsets.all(10),
           child: FutureBuilder(
-              future: _weatherViewModel.getWeather(city),
+              future: _weatherViewModel.fetchWeather(city),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   print(snapshot.error.runtimeType);

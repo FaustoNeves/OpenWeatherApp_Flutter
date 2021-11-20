@@ -5,10 +5,10 @@ class WeatherViewModel {
   WeatherController _weatherController = WeatherController();
   LocationController _locationController = LocationController();
 
-  Future getWeather(String? cityName) async {
+  Future fetchWeather(String? cityName) async {
     Map<String, double> coordinates =
         await _locationController.getCoordinates() as Map<String, double>;
 
-    return await _weatherController.getWeather(cityName, coordinates);
+    return await _weatherController.fetchWeather(cityName, coordinates);
   }
 }

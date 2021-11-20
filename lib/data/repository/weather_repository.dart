@@ -1,12 +1,20 @@
 
-import 'package:weather_app_flutter/data/remote/weather/weather_api.dart';
+import 'package:weather_app_flutter/data/remote/base_http/api_base_helper.dart';
 
 class WeatherRepository {
-  final WeatherAPI weatherAPI;
+  String apiId = "0cffb35ecd63d1162d3e70dd625132fc";
+  static const String baseUrl = "https://api.openweathermap.org/data/2.5/";
+  final ApiBaseHelper apiBaseHelper = ApiBaseHelper(baseUrl);
+  late String url;
 
-  WeatherRepository({required this.weatherAPI});
+  Future fetchWeather(
+      String? cityName, Map<String, double>? coordinates) async {
+    double? lat = coordinates?['lat'];
+    double? lon = coordinates?['lon'];
+    cityName == null
+        ? url = "weather?lat=$lat&lon=$lon&appid=$apiId"
+        : url = "weather?q=$cityName&appid=$apiId";
 
-  Future getWeather(String? cityName, Map<String, double>? coordinates) async {
-    return await weatherAPI.getWeather(cityName, coordinates?['lat'], coordinates?['lon']);
+    return await apiBaseHelper.fetchWeather(url);
   }
 }

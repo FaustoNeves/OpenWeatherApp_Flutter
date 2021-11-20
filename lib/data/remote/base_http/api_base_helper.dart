@@ -9,7 +9,7 @@ class ApiBaseHelper {
 
   ApiBaseHelper(this.baseUrl);
 
-  Future get(String url) async {
+  Future fetchWeather(String url) async {
     var responseJson;
     try {
       final response = await get(baseUrl + url);
@@ -24,7 +24,6 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body);
-        print(responseJson);
         return responseJson;
       case 400:
         throw BadRequestException(response.body);
