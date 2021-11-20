@@ -20,94 +20,90 @@ class _WeatherInfoState extends State<WeatherInfo> {
 
   @override
   Widget build(BuildContext context) {
+    Weather weather = context.read<Weather>();
     return Container(
-      child: Consumer<Weather>(
-        builder: (context, value, child) {
-          return Container(
-              decoration: BoxDecoration(
-                color: value.backgroundColor,
+      decoration: BoxDecoration(
+        color: weather.backgroundColor,
+      ),
+      child: SafeArea(
+        child: Column(
+          children: [
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    weather.country,
+                    style: GoogleFonts.roboto(
+                        textStyle:
+                            TextStyle(fontSize: 18, color: weather.mainColor)),
+                  ),
+                  Text(weather.city,
+                      style: GoogleFonts.roboto(
+                          textStyle: TextStyle(
+                              fontSize: 22, color: weather.mainColor))),
+                  Countup(
+                      duration: Duration(milliseconds: 1100),
+                      suffix: " C°",
+                      begin: 0,
+                      end: double.parse(weather.temp),
+                      style: GoogleFonts.roboto(
+                        textStyle:
+                            TextStyle(fontSize: 90, color: weather.mainColor),
+                      )),
+                ],
               ),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            value.country,
-                            style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    fontSize: 18, color: value.mainColor)),
-                          ),
-                          Text(value.city,
-                              style: GoogleFonts.roboto(
-                                  textStyle: TextStyle(
-                                      fontSize: 22, color: value.mainColor))),
-                          Countup(
-                              duration: Duration(milliseconds: 1100),
-                              suffix: " C°",
-                              begin: 0,
-                              end: double.parse(value.temp),
-                              style: GoogleFonts.roboto(
-                                textStyle: TextStyle(
-                                    fontSize: 90, color: value.mainColor),
-                              )),
-                        ],
+            ),
+            Flexible(
+              child: Image.asset(
+                weather.weatherImage,
+                color: weather.mainColor,
+              ),
+            ),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Countup(
+                        duration: Duration(milliseconds: 1100),
+                        prefix: "max ",
+                        suffix: " C°",
+                        begin: 0,
+                        end: double.parse(weather.tempMax),
+                        style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                fontSize: 30, color: weather.mainColor)),
                       ),
-                    ),
-                    Flexible(
-                      child: Image.asset(
-                        value.weatherImage,
-                        color: value.mainColor,
+                      Countup(
+                        duration: Duration(milliseconds: 1100),
+                        prefix: "min ",
+                        suffix: " C°",
+                        begin: 0,
+                        end: double.parse(weather.tempMin),
+                        style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                fontSize: 30, color: weather.mainColor)),
                       ),
-                    ),
-                    Flexible(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Countup(
-                                duration: Duration(milliseconds: 1100),
-                                prefix: "max ",
-                                suffix: " C°",
-                                begin: 0,
-                                end: double.parse(value.tempMax),
-                                style: GoogleFonts.roboto(
-                                    textStyle: TextStyle(
-                                        fontSize: 30, color: value.mainColor)),
-                              ),
-                              Countup(
-                                duration: Duration(milliseconds: 1100),
-                                prefix: "min ",
-                                suffix: " C°",
-                                begin: 0,
-                                end: double.parse(value.tempMin),
-                                style: GoogleFonts.roboto(
-                                    textStyle: TextStyle(
-                                        fontSize: 30, color: value.mainColor)),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          FloatingActionButton(
-                              onPressed: _showDialog,
-                              backgroundColor: Colors.white,
-                              child: Icon(Icons.search, color: Colors.black)),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ));
-        },
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  FloatingActionButton(
+                      onPressed: _showDialog,
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.search, color: Colors.black)),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
