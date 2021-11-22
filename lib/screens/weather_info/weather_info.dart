@@ -13,7 +13,6 @@ class WeatherInfo extends StatefulWidget {
 }
 
 class _WeatherInfoState extends State<WeatherInfo> {
-  TextEditingController searchController = new TextEditingController();
 
   String? cityName;
   final _formKey = GlobalKey<FormState>();
@@ -23,7 +22,11 @@ class _WeatherInfoState extends State<WeatherInfo> {
     Weather weather = context.read<Weather>();
     return Container(
       decoration: BoxDecoration(
-        color: weather.backgroundColor,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: weather.backgroundColor,
+        ),
       ),
       child: SafeArea(
         child: Column(
@@ -119,10 +122,11 @@ class _WeatherInfoState extends State<WeatherInfo> {
             child: TextFormField(
               cursorColor: Colors.orange,
               decoration: InputDecoration(
-                  labelText: "City name",
-                  labelStyle: TextStyle(
-                    color: Colors.black87,
-                  )),
+                labelText: "City name",
+                labelStyle: TextStyle(
+                  color: Colors.black87,
+                ),
+              ),
               validator: (text) {
                 if (text!.isEmpty) {
                   return 'This field cannot be empty';

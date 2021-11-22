@@ -1,14 +1,14 @@
-import 'package:weather_app_flutter/controller/location_controller.dart';
-import 'package:weather_app_flutter/controller/weather_controller.dart';
+import 'package:weather_app_flutter/data/repository/location_repository.dart';
+import 'package:weather_app_flutter/data/repository/weather_repository.dart';
 
 class WeatherViewModel {
-  WeatherController _weatherController = WeatherController();
-  LocationController _locationController = LocationController();
+  WeatherRepository _weatherRepository = WeatherRepository();
+  LocationRepository _locationRepository = LocationRepository();
 
   Future fetchWeather(String? cityName) async {
     Map<String, double> coordinates =
-        await _locationController.getCoordinates() as Map<String, double>;
+        await _locationRepository.getCoordinates() as Map<String, double>;
 
-    return await _weatherController.fetchWeather(cityName, coordinates);
+    return await _weatherRepository.fetchWeather(cityName, coordinates);
   }
 }

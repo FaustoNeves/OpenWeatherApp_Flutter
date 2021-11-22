@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
 import 'package:weather_app_flutter/screens/user_orientation/user_orientation.dart';
@@ -26,66 +27,81 @@ class _LoadingState extends State<Loading> {
       city = search!['searchText'];
     }
     return Scaffold(
-        backgroundColor: Colors.black,
         body: Container(
-          margin: EdgeInsets.all(10),
-          child: FutureBuilder(
-              future: _weatherViewModel.fetchWeather(city),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  print(snapshot.error.runtimeType);
-                  return UserOrientation(errorType: snapshot.error.runtimeType);
-                } else if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  try {
-                    Map weather = snapshot.data as Map;
-                    provider.setProviderContent(Weather.fromMap(weather));
-                    return WeatherInfo();
-                  } catch (exception) {
-                    return UserOrientation(errorType: NoResultFoundException);
-                  }
-                }
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SafeArea(
-                      child: Column(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.deepPurple[300]!, Colors.orange[500]!],
+        ),
+      ),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: FutureBuilder(
+          future: _weatherViewModel.fetchWeather(city),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print(snapshot.error.runtimeType);
+              return UserOrientation(errorType: snapshot.error.runtimeType);
+            } else if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              try {
+                Map weather = snapshot.data as Map;
+                provider.setProviderContent(Weather.fromMap(weather));
+                return WeatherInfo();
+              } catch (exception) {
+                return UserOrientation(errorType: NoResultFoundException);
+              }
+            }
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Weather",
+                        style: GoogleFonts.miriamLibre(
+                          textStyle: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text(
-                            "Weather",
-                            style: TextStyle(
-                                fontSize: 60,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white),
+                          Image.asset(
+                            "assets/weathercock.png",
+                            color: Colors.black,
+                          ),
+                          SizedBox(
+                            width: 10,
                           ),
                           Text(
                             "NOW",
-                            style: TextStyle(
-                                fontSize: 60,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.blue),
-                          ),
+                            style: GoogleFonts.jacquesFrancoisShadow(
+                              textStyle:
+                                  TextStyle(fontSize: 70, color: Colors.black),
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          "assets/thermometer.png",
-                          color: Colors.blue,
-                        ),
-                      ],
-                    ),
-                    Column(children: [
-                      SpinKitRing(
-                        color: Colors.orange,
-                      ),
-                    ]),
-                  ],
-                );
-              }),
-        ));
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SpinKitRing(
+                    color: Colors.lightBlue,
+                  ),
+                ),
+              ],
+            );
+          }),
+    ));
   }
 }
