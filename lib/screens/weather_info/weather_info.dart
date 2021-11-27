@@ -78,7 +78,7 @@ class _WeatherInfoState extends State<WeatherInfo> {
                         end: double.parse(weather.tempMax),
                         style: GoogleFonts.roboto(
                             textStyle: TextStyle(
-                                fontSize: 30, color: weather.mainColor)),
+                                fontSize: 24, color: weather.mainColor)),
                       ),
                       Countup(
                         duration: Duration(milliseconds: 1100),
@@ -88,7 +88,7 @@ class _WeatherInfoState extends State<WeatherInfo> {
                         end: double.parse(weather.tempMin),
                         style: GoogleFonts.roboto(
                             textStyle: TextStyle(
-                                fontSize: 30, color: weather.mainColor)),
+                                fontSize: 24, color: weather.mainColor)),
                       ),
                     ],
                   ),

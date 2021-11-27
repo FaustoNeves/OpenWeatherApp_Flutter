@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app_flutter/data/remote/base_http/http_exceptions.dart';
 import 'package:weather_app_flutter/screens/loading/loading.dart';
 
@@ -24,196 +24,206 @@ class _UserOrientationState extends State<UserOrientation> {
   Widget build(BuildContext context) {
     return Container(
       child: SafeArea(
-        child: Center(
-          child: Flexible(
-            child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
               children: [
-                Column(
+                Text(
+                  "Weather",
+                  style: GoogleFonts.miriamLibre(
+                    textStyle: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.black),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Weather",
-                      style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white),
+                    Image.asset(
+                      "assets/weathercock.png",
+                      color: Colors.black,
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     Text(
                       "NOW",
-                      style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.blue),
+                      style: GoogleFonts.jacquesFrancoisShadow(
+                        textStyle: TextStyle(fontSize: 70, color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            if (widget.errorType == HttpException)
+              Flexible(
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "assets/repair.png",
+                      color: Colors.black,
+                    ),
+                    SizedBox(height: 20,),
+                    Text(
+                      'Internal server error',
+                      style: GoogleFonts.roboto(
+                          textStyle:
+                              TextStyle(color: Colors.black, fontSize: 18)),
+                      textAlign: TextAlign.center,
+                    ),
+                    ElevatedButton(
+                      child: Text("Try again"),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Loading()));
+                      },
                     ),
                   ],
                 ),
-                if (widget.errorType == HttpException)
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/repair.png",
-                          color: Colors.blue,
+              ),
+            if (widget.errorType == NoResultsException)
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/weather_not_found.png",
+                    color: Colors.black,
+                  ),
+                  SizedBox(height: 20,),
+                  Column(
+                    children: [
+                      Text(
+                        "No places found!",
+                        style: GoogleFonts.roboto(
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 18)),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        child: Text("Try again"),
+                        onPressed: () {
+                          _showDialog();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            if (widget.errorType == FetchDataException)
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/get_wifi.png",
+                    color: Colors.black,
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "This app requires ethernet connection",
+                        style: GoogleFonts.roboto(
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 18)),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "Click on the button bellow to manually connect to a wifi network",
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                  Column(
+                    children: [
+                      OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: Colors.black)),
+                        icon: Icon(Icons.wifi),
+                        label: Text(
+                          "WiFi",
+                          style: GoogleFonts.roboto(
+                              textStyle:
+                                  TextStyle(color: Colors.black, fontSize: 18)),
+                          textAlign: TextAlign.center,
                         ),
-                        Column(
-                          children: [
-                            Text(
-                              'Internal server error',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                            ElevatedButton(
-                              child: Text("Try again"),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Loading()));
-                              },
-                            ),
-                          ],
+                        onPressed: () {
+                          AppSettings.openWIFISettings();
+                        },
+                      ),
+                      ElevatedButton(
+                        child: Text("Try again"),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Loading()));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            if (widget.errorType == PermissionDeniedException)
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      "assets/get_location.png",
+                      color: Colors.black,
+                    ),
+                    SizedBox(height: 20,),
+                    Column(
+                      children: [
+                        Text(
+                          "This app requires controller location",
+                          style: GoogleFonts.roboto(
+                              textStyle:
+                                  TextStyle(color: Colors.black, fontSize: 18)),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "Click on the button bellow to manually enable your location controller",
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
-                  ),
-                if (widget.errorType == NoResultsException)
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Column(
                       children: [
-                        Flexible(
-                          child: Image.asset(
-                            "assets/weather_not_found.png",
-                            color: Colors.blue,
+                        OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: Colors.black)),
+                          icon: Icon(Icons.place),
+                          label: Text(
+                            "Location",
+                            style: TextStyle(color: Colors.black),
                           ),
+                          onPressed: () {
+                            GeolocatorPlatform.instance.openAppSettings();
+                          },
                         ),
-                        Column(
-                          children: [
-                            Text(
-                              "No places found!",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              child: Text("Try again"),
-                              onPressed: () {
-                                _showDialog();
-                              },
-                            ),
-                          ],
+                        ElevatedButton(
+                          child: Text("Try again"),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Loading()));
+                          },
                         ),
                       ],
                     ),
-                  ),
-                if (widget.errorType == FetchDataException)
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/get_wifi.png",
-                          color: Colors.blue,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "This app requires ethernet connection",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              "Click on the button bellow to manually connect to a wifi network",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            OutlinedButton.icon(
-                              style: OutlinedButton.styleFrom(
-                                  side: BorderSide(color: Colors.blue)),
-                              icon: Icon(Icons.wifi),
-                              label: Text("WIFI"),
-                              onPressed: () {
-                                AppSettings.openWIFISettings();
-                              },
-                            ),
-                            ElevatedButton(
-                              child: Text("Try again"),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Loading()));
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                if (widget.errorType == PermissionDeniedException)
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          "assets/get_location.png",
-                          color: Colors.blue,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "This app requires controller location",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              "Click on the button bellow to manually enable your location controller",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            OutlinedButton.icon(
-                              style: OutlinedButton.styleFrom(
-                                  side: BorderSide(color: Colors.blue)),
-                              icon: Icon(Icons.place),
-                              label: Text("Location"),
-                              onPressed: () {
-                                GeolocatorPlatform.instance.openAppSettings();
-                              },
-                            ),
-                            ElevatedButton(
-                              child: Text("Try again"),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Loading()));
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                // PermissionsDeniedWidget(),
-              ],
-            ),
-          ),
+                  ],
+                ),
+              ),
+            // PermissionsDeniedWidget(),
+          ],
         ),
       ),
     );

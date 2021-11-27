@@ -35,8 +35,6 @@ class _LoadingState extends State<Loading> {
           colors: [Colors.deepPurple[300]!, Colors.orange[500]!],
         ),
       ),
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
       child: FutureBuilder(
           future: _weatherViewModel.fetchWeather(city),
           builder: (context, snapshot) {
@@ -96,7 +94,7 @@ class _LoadingState extends State<Loading> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: SpinKitRing(
-                    color: Colors.lightBlue,
+                    color: Colors.grey[800]!,
                   ),
                 ),
               ],

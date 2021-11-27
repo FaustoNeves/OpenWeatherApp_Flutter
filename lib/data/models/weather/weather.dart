@@ -34,18 +34,22 @@ class Weather {
     Map sysData = map['sys'];
     country = sysData['country'];
     icon = weatherMainData['icon'];
+    setWeatherAppearance(icon);
+  }
 
+  void setWeatherAppearance(String icon) {
     /**
-     * There are 18 (9 for day, 9 for night) icons in total; each one representing current weather
+     * There are 18 (9 for day, 9 for night) icons in total; each one representing
+     * its current weather
      * The states can be:
-     * clear sky
-     * few clouds
-     * scattered clouds
-     * broken clouds
-     * shower rain
-     * thunderstorm
-     * snow
-     * mist
+     * - clear sky
+     * - few clouds
+     * - scattered clouds
+     * - broken clouds
+     * - shower rain
+     * - thunderstorm
+     * - snow
+     * - mist
      * */
     switch (icon) {
       case '01d':
@@ -60,7 +64,7 @@ class Weather {
         {
           mainColor = Colors.white;
           weatherImage = "assets/clear_sky_night.png";
-          backgroundColor = [Colors.deepPurple, Colors.black12];
+          backgroundColor = [Colors.deepPurple[800]!, Colors.purple];
         }
         break;
       case '02d':
@@ -97,7 +101,7 @@ class Weather {
         {
           mainColor = Colors.black;
           weatherImage = "assets/clouds_day_2.png";
-          backgroundColor = [Colors.white, Colors.white60];
+          backgroundColor = [Colors.orangeAccent, Colors.white10];
         }
         break;
 
