@@ -190,6 +190,9 @@ class Weather {
   }
 
   void setProviderContent(Weather weather) {
+  /**
+   * Loads instance for provider
+   * */
     this.temp = weather.temp;
     this.tempMin = weather.tempMin;
     this.tempMax = weather.tempMax;

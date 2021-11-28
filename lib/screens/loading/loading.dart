@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
@@ -22,6 +21,7 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<Weather>(context);
+    /**User's input text*/
     Map? search = ModalRoute.of(context)!.settings.arguments as Map?;
     if (search?.isNotEmpty ?? false) {
       city = search!['searchText'];
@@ -39,19 +39,17 @@ class _LoadingState extends State<Loading> {
           future: _weatherViewModel.fetchWeather(city),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print(snapshot.error.runtimeType);
+              /** Goes to user's orientation screen sending any upcoming error*/
               return UserOrientation(errorType: snapshot.error.runtimeType);
             } else if (snapshot.connectionState == ConnectionState.done &&
+                /**Set weather provider and goes to weather's info screen if request succeeds*/
                 snapshot.hasData) {
-              try {
-                Map weather = snapshot.data as Map;
-                provider.setProviderContent(Weather.fromMap(weather));
-                return WeatherInfo();
-              } catch (exception) {
-                return UserOrientation(errorType: NoResultFoundException);
-              }
+              provider
+                  .setProviderContent(Weather.fromMap(snapshot.data as Map));
+              return WeatherInfo();
             }
             return Column(
+              /**Waiting request UI*/
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               mainAxisSize: MainAxisSize.max,
               children: [
