@@ -23,8 +23,7 @@ class _UserOrientationState extends State<UserOrientation> {
   Widget build(BuildContext context) {
     return Container(
       child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
               children: [
@@ -138,7 +137,9 @@ class _UserOrientationState extends State<UserOrientation> {
                                 TextStyle(color: Colors.black, fontSize: 18)),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 25,),
+                      SizedBox(
+                        height: 5,
+                      ),
                       ElevatedButton(
                         child: Text("Try again"),
                         onPressed: () {
@@ -178,7 +179,7 @@ class _UserOrientationState extends State<UserOrientation> {
                       OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                             side: BorderSide(color: Colors.black)),
-                        icon: Icon(Icons.wifi),
+                        icon: Icon(Icons.wifi, color: Colors.blue,),
                         label: Text(
                           "WiFi",
                           style: GoogleFonts.roboto(
@@ -234,7 +235,7 @@ class _UserOrientationState extends State<UserOrientation> {
                         OutlinedButton.icon(
                           style: OutlinedButton.styleFrom(
                               side: BorderSide(color: Colors.black)),
-                          icon: Icon(Icons.place),
+                          icon: Icon(Icons.place, color: Colors.blue,),
                           label: Text(
                             "Location",
                             style: TextStyle(color: Colors.black),
@@ -243,7 +244,6 @@ class _UserOrientationState extends State<UserOrientation> {
                             GeolocatorPlatform.instance.openAppSettings();
                           },
                         ),
-                        SizedBox(height: 25,),
                         ElevatedButton(
                           child: Text("Try again"),
                           onPressed: () {
