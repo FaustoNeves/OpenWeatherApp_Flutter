@@ -19,7 +19,6 @@ class UserOrientation extends StatefulWidget {
 class _UserOrientationState extends State<UserOrientation> {
   final _formKey = GlobalKey<FormState>();
   String? cityName;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,31 +57,67 @@ class _UserOrientationState extends State<UserOrientation> {
                 ),
               ],
             ),
+            /**
+             *Conditional UI for
+             * - HttpException in case of error 500
+             * - NoResultException in case of error 404
+             * - FetchDataException for no ethernet connection
+             * - PermissionDeniedException when user denies location permission
+             * - UnauthorisedException for 403 code
+             * */
             if (widget.errorType == HttpException)
-              Flexible(
-                child: Column(
-                  children: [
-                    Image.asset(
-                      "assets/repair.png",
-                      color: Colors.black,
-                    ),
-                    SizedBox(height: 20,),
-                    Text(
-                      'Internal server error',
-                      style: GoogleFonts.roboto(
-                          textStyle:
-                              TextStyle(color: Colors.black, fontSize: 18)),
-                      textAlign: TextAlign.center,
-                    ),
-                    ElevatedButton(
-                      child: Text("Try again"),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Loading()));
-                      },
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/repair.png",
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Internal server error',
+                    style: GoogleFonts.roboto(
+                        textStyle:
+                            TextStyle(color: Colors.black, fontSize: 18)),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 25,),
+                  ElevatedButton(
+                    child: Text("Try again"),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Loading()));
+                    },
+                  ),
+                ],
+              ),
+            if (widget.errorType == UnauthorisedException)
+              Column(
+                children: [
+                  Image.asset(
+                    "assets/padlock.png",
+                    color: Colors.black,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Unauthorised request. Check your API key',
+                    style: GoogleFonts.roboto(
+                        textStyle:
+                            TextStyle(color: Colors.black, fontSize: 18)),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 25,),
+                  ElevatedButton(
+                    child: Text("Try again"),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Loading()));
+                    },
+                  ),
+                ],
               ),
             if (widget.errorType == NoResultsException)
               Column(
@@ -91,7 +126,9 @@ class _UserOrientationState extends State<UserOrientation> {
                     "assets/weather_not_found.png",
                     color: Colors.black,
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Column(
                     children: [
                       Text(
@@ -101,9 +138,7 @@ class _UserOrientationState extends State<UserOrientation> {
                                 TextStyle(color: Colors.black, fontSize: 18)),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 25,),
                       ElevatedButton(
                         child: Text("Try again"),
                         onPressed: () {
@@ -208,6 +243,7 @@ class _UserOrientationState extends State<UserOrientation> {
                             GeolocatorPlatform.instance.openAppSettings();
                           },
                         ),
+                        SizedBox(height: 25,),
                         ElevatedButton(
                           child: Text("Try again"),
                           onPressed: () {

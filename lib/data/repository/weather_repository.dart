@@ -2,7 +2,7 @@
 import 'package:weather_app_flutter/data/remote/base_http/api_base_helper.dart';
 
 class WeatherRepository {
-  String apiId = "0cffb35ecd63d1162d3e70dd625132fc";
+  String apiId = "YOUR_API_KEY";
   static const String baseUrl = "https://api.openweathermap.org/data/2.5/";
   final ApiBaseHelper apiBaseHelper = ApiBaseHelper(baseUrl);
   late String url;

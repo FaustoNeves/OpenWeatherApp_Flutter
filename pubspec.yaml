@@ -70,6 +70,7 @@ flutter:
     - assets/clouds_day_2.png
     - assets/clouds_night_2.png
     - assets/weathercock.png
+    - assets/padlock.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
