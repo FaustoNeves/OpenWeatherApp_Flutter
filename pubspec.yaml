@@ -62,7 +62,6 @@ flutter:
     - assets/rain.png
     - assets/night_rain.png
     - assets/snow.png
-    - assets/thermometer.png
     - assets/weather_not_found.png
     - assets/get_location.png
     - assets/get_wifi.png
