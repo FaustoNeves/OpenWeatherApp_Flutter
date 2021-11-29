@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:weather_app_flutter/data/models/weather/weather.dart';
 
 class WeatherInfo extends StatefulWidget {
-  const WeatherInfo({Key? key}) : super(key: key);
+  final Weather weather;
+  const WeatherInfo({Key? key, required this.weather}) : super(key: key);
 
   @override
   _WeatherInfoState createState() => _WeatherInfoState();
@@ -19,7 +20,7 @@ class _WeatherInfoState extends State<WeatherInfo> {
 
   @override
   Widget build(BuildContext context) {
-    Weather weather = context.read<Weather>();
+    Weather weather = widget.weather;
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
