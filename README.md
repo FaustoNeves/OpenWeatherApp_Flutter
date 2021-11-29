@@ -1,7 +1,7 @@
 ## [Flutter](https://flutter.dev/) app consuming weather API [OpenWeatherMap API](https://openweathermap.org/)
 
 ### About the project
-This app requests and display the current weather (no forecast service) based on user's coordinates or by city/location/region name. This app is designed to have some workarounds avoiding lots of packages and fancy state management. Running this app for the first time you lead to an unauthorised exception since there is no API key. You can get an API key [here](https://openweathermap.org/api/weather-map-2).
+This app requests and display the current weather (no forecast service) based on user's coordinates or by city/location/region name. This app is designed to have some workarounds avoiding lots of packages and fancy state management. Running this app for the first time leads you to an unauthorised exception since there is no available API key. You can get an API key [here](https://openweathermap.org/api/weather-map-2).
 
 ### Dependencies
 * [http package v0.12.2](https://pub.dev/packages/http)
@@ -10,6 +10,8 @@ This app requests and display the current weather (no forecast service) based on
 * [geocoding: latest](https://pub.dev/packages/geocoding)
 * [countup: ^0.1.3](https://pub.dev/packages/countup)
 * [provider: ^4.0.1](https://pub.dev/packages/provider)
+* [flutter_bloc: ^7.0.0](https://pub.dev/packages/flutter_bloc)
+* [app_settings: 4.1.1](https://pub.dev/packages/app_settings)
 * [flat icons](https://www.flaticon.com/)
   * Icons made by the following authors from www.flaticon.com
     * smashingstocks
