@@ -34,10 +34,9 @@ class _LoadingState extends State<Loading> {
         ),
       ),
       child: BlocBuilder<WeatherCubit, WeatherState>(builder: (context, state) {
-        print(state.runtimeType.toString());
         if (state is WeatherError)
           /** Goes to user's orientation screen sending any upcoming error*/
-          return UserOrientation(errorType: state.runtimeType);
+          return UserOrientation(errorType: state.exception);
         if (state is WeatherAvailable)
           return WeatherInfo(weather: state.weather);
         return Column(

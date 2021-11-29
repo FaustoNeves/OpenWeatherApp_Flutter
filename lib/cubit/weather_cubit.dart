@@ -12,12 +12,20 @@ class WeatherCubit extends Cubit<WeatherState> {
   WeatherCubit(this._weatherService) : super(WeatherInitial());
 
   void fetchWeather(String? cityName) {
-    _weatherService.fetchWeather(cityName).then((value) => {
-          if (Weather.fromMap(value).runtimeType == Weather)
-            {emit(WeatherAvailable(weather: Weather.fromMap(value))), print(value.toString())}
-          else
-            {emit(WeatherError(exception: value)), print(value.toString())}
-        });
+    {
+      emit(WeatherInitial());
+    }
+    _weatherService
+        .fetchWeather(cityName)
+        .then((value) => {
+              if (Weather.fromMap(value).runtimeType == Weather)
+                {emit(WeatherAvailable(weather: Weather.fromMap(value)))}
+              else
+                {emit(WeatherError(exception: value))}
+            })
+        .onError((error, stackTrace) => {
+              {emit(WeatherError(exception: error))}
+            });
   }
 }
 

@@ -8,7 +8,7 @@ import 'package:weather_app_flutter/data/remote/base_http/http_exceptions.dart';
 import 'package:weather_app_flutter/screens/loading/loading.dart';
 
 class UserOrientation extends StatefulWidget {
-  final Type errorType;
+  final Exception errorType;
 
   const UserOrientation({Key? key, required this.errorType}) : super(key: key);
 
@@ -64,7 +64,7 @@ class _UserOrientationState extends State<UserOrientation> {
              * - PermissionDeniedException when user denies location permission
              * - UnauthorisedException for 403 code
              * */
-            if (widget.errorType == HttpException)
+            if (widget.errorType.runtimeType == HttpException)
               Column(
                 children: [
                   Image.asset(
@@ -91,7 +91,7 @@ class _UserOrientationState extends State<UserOrientation> {
                   ),
                 ],
               ),
-            if (widget.errorType == UnauthorisedException)
+            if (widget.errorType.runtimeType == UnauthorisedException)
               Column(
                 children: [
                   Image.asset(
@@ -118,7 +118,7 @@ class _UserOrientationState extends State<UserOrientation> {
                   ),
                 ],
               ),
-            if (widget.errorType == NoResultsException)
+            if (widget.errorType.runtimeType == NoResultsException)
               Column(
                 children: [
                   Image.asset(
@@ -150,7 +150,7 @@ class _UserOrientationState extends State<UserOrientation> {
                   ),
                 ],
               ),
-            if (widget.errorType == FetchDataException)
+            if (widget.errorType.runtimeType == FetchDataException)
               Column(
                 children: [
                   Image.asset(
@@ -204,7 +204,7 @@ class _UserOrientationState extends State<UserOrientation> {
                   ),
                 ],
               ),
-            if (widget.errorType == PermissionDeniedException)
+            if (widget.errorType.runtimeType == PermissionDeniedException)
               Flexible(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
